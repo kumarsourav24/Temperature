@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            background-image: url('https://www.transparenttextures.com/patterns/flowers.png'); /* Flower background image */
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+        p {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Switch button styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            content: "";
+            left: calc(100% - 30px);
+        }
+
+        /* Icon styles */
+        .icon {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+
+        /* Clock styles */
+        .clock {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-thermometer-half icon"></i>Temperature Converter</h1>
+        <label for="temperature">Enter Temperature:</label>
+        <input type="text" id="temperature" placeholder="Enter temperature">
+        
+        <!-- Switch button with mode names -->
+        <label>Conversion Mode:</label>
+        <label class="switch">
+            <input type="checkbox" id="conversionSwitch">
+            <span class="slider round"></span>
+        </label>
+        <p id="modeName"><i class="fas fa-temperature-low icon"></i>Celsius to Fahrenheit</p>
+        
+        <input type="button" value="Convert" onclick="convertTemperature()">
+        <p id="result"></p>
+        
+        <!-- Clock display -->
+        <p class="clock" id="clock"></p>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Function to update the clock
+        function updateClock() {
+            const clockElement = document.getElementById("clock");
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            clockElement.textContent = `Current Time: ${timeString}`;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        // Function to convert temperature
+        function convertTemperature() {
+            const temperatureInput = document.getElementById("temperature");
+            const conversionSwitch = document.getElementById("conversionSwitch");
+            const modeNameElement = document.getElementById("modeName");
+            const resultElement = document.getElementById("result");
+            const temperature = parseFloat(temperatureInput.value);
+
+            if (conversionSwitch.checked) {
+                // Convert Fahrenheit to Celsius
+                const celsius = (temperature - 32) * 5/9;
+                resultElement.textContent = `Temperature in Celsius: ${celsius.toFixed(2)}°C`;
+                modeNameElement.innerHTML = `<i class="fas fa-temperature-high icon"></i>Fahrenheit to Celsius`;
+            } else {
+                // Convert Celsius to Fahrenheit
+                const fahrenheit = (temperature * 9/5) + 32;
+                resultElement.textContent = `Temperature in Fahrenheit: ${fahrenheit.toFixed(2)}°F`;
+                modeNameElement.innerHTML = `<i class="fas fa-temperature-low icon"></i>Celsius to Fahrenheit`;
+            }
+        }
+    </script>
+</body>
+</html>
